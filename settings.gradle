@@ -1,0 +1,2 @@
+include ':frege-lib'
+include ':java-lib'

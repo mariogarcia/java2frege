@@ -1,0 +1,6 @@
+module j2f.InterfacesSpec where
+
+import Test.QuickCheck
+
+commutativity = property $ \(x :: Int) \(y :: Int) -> (x + y) == (y + x)
+reverseProp = property $ \(list :: [Int]) -> list ==  reverse (reverse list)

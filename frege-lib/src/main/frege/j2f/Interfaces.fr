@@ -1,0 +1,18 @@
+module j2f.Interfaces where
+
+native module where {
+    public static j2f.interfaces.NumberComparator createComparator(final Func.U<Integer, Func.U<Integer,Boolean>> fn) {
+        return new j2f.interfaces.NumberComparator() {
+            public boolean isGreaterThan(Integer a, Integer b) {
+                Func.U<Integer,Boolean> execution = fn.apply(Thunk.<Integer>lazy(a)).call();
+                Lazy<Boolean>           result    = execution.apply(Thunk.<Integer>lazy(b));
+
+                return result.call();
+            }
+        };
+    }
+}
+
+data NumberComparator = mutable native j2f.interfaces.NumberComparator where
+    native new Interfaces.createComparator :: (Int -> Int -> Bool) -> IO NumberComparator
+    native gt  isGreaterThan               :: NumberComparator -> Int -> Int -> IO Bool
