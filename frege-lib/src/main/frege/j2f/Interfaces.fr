@@ -4,10 +4,10 @@ native module where {
     public static j2f.interfaces.NumberComparator createComparator(final Func.U<Integer, Func.U<Integer,Boolean>> fn) {
         return new j2f.interfaces.NumberComparator() {
             public boolean isGreaterThan(Integer a, Integer b) {
-                Func.U<Integer,Boolean> execution = fn.apply(Thunk.<Integer>lazy(a)).call();
-                Lazy<Boolean>           result    = execution.apply(Thunk.<Integer>lazy(b));
-
-                return result.call();
+                return fn.apply(Thunk.<Integer>lazy(a))   -- Partial application
+                      .call()                             -- Retrieves Func.U (Lazy#call)
+                      .apply(Thunk.<Integer>lazy(b))      -- Partial application
+                      .call();                            -- Extract value from Lazy
             }
         };
     }
